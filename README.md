@@ -1,1 +1,1 @@
-# FrontlineDefense
+The main content of this game is that the player guards a frontline position, where there are various buildings such as mines, barracks, factories, etc. The player’s income depends on airdrop supplies and minecarts to obtain resources.
