@@ -8,3 +8,7 @@ The main content of this game is that the player guards a frontline position, wh
 4. 变量（field）和属性（property）名：私有。首字符小写，后面单词首字母大写，比如：enemyTransform、enemyGameObject。其他。首字母大，后面单词首字母大写，比如：UnitTransform、UnityGameObject。
 5. 委托（delegate）和事件（event）名：首字符小写，后面单词首字母大写，比如：onDownloadComplete。其他。
 6. 函数名：静态、私有、保护、公有。单词首字母大写，比如：Update、OnGUI。
+
+使用された素材：
+・FREE Aircraft Pack
+https://assetstore.unity.com/packages/3d/vehicles/air/free-aircraft-pack-194025
