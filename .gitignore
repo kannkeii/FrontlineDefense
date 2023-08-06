@@ -71,3 +71,11 @@ crashlytics-build.properties
 /[Aa]ssets/[Ss]treamingAssets/aa.meta
 /[Aa]ssets/[Ss]treamingAssets/aa/*
 FrontlineDefense/Temp/
+FrontlineDefense/Library/
+*.xlsx
+FrontlineDefense/.vsconfig
+FrontlineDefense/Packages/packages-lock.json
+FrontlineDefense/obj/Debug/Assembly-CSharp.csproj.AssemblyReference.cache
+FrontlineDefense/obj/Debug/DesignTimeResolveAssemblyReferencesInput.cache
+FrontlineDefense/Logs/Packages-Update.log
+FrontlineDefense/Packages/manifest.json
