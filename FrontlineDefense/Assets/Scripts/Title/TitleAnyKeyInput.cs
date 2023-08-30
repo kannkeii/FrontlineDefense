@@ -6,11 +6,14 @@ public class TitleAnyKeyInput : MonoBehaviour
 {
     public delegate void AnyKeyDownHandler();
 
-    public event AnyKeyDownHandler OnAnyKeyDown;
+    public event AnyKeyDownHandler OnAnyKeyDownHandler;
 
-    public static TitleAnyKeyInput Instance { get { return instance; } }//private set; }
+
+    public static TitleAnyKeyInput Instance { get { return instance; } }//private set; }//読み込み（get）だけの場合、func{get;} = varが可能
 
     private static TitleAnyKeyInput instance = null;
+
+    private static bool onAnyKeyDownIsHandled = false;
 
     private void Awake()
     {
@@ -39,9 +42,11 @@ public class TitleAnyKeyInput : MonoBehaviour
         //Input.GetAxis//检测在Input Manager中定义的虚拟轴的值
         //Input.GetButton//检测在Input Manager中定义的虚拟按钮是否被按下
 
-        if(Input.anyKeyDown || MouseAnyKeyDown())
+        if((Input.anyKeyDown || MouseAnyKeyDown()) &&
+            !onAnyKeyDownIsHandled)
         {
-            OnAnyKeyDown?.Invoke();
+            OnAnyKeyDownHandler?.Invoke();
+            onAnyKeyDownIsHandled = true;
         }
 
     }

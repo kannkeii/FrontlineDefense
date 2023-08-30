@@ -1,7 +1,7 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class Cloud : MonoBehaviour
 {
@@ -11,7 +11,9 @@ public class Cloud : MonoBehaviour
         CLOUD_TYPE_RIGHT = 1
     }
 
-    
+    public delegate void CloudActionHandler();
+    public event CloudActionHandler OnCloudActionCompleted;
+
     public float cloudSpeed = 0;
     public CLOUD_TYPE type = CLOUD_TYPE.CLOUD_TYPE_LEFT;
 
@@ -20,7 +22,7 @@ public class Cloud : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        TitleAnyKeyInput.Instance.OnAnyKeyDown += ()=> { if(speed != cloudSpeed) speed = cloudSpeed; };
+        TitleAnyKeyInput.Instance.OnAnyKeyDownHandler += ()=> { if(speed != cloudSpeed) speed = cloudSpeed; };
     }
 
     // Update is called once per frame
@@ -31,15 +33,24 @@ public class Cloud : MonoBehaviour
 
     public void MoveToOutsideScreen()
     {
-        transform.position += (int)type * new Vector3(speed * Time.deltaTime, 0, 0);
+        transform.position += Convert.ToInt32(type) * new Vector3(speed * Time.deltaTime, 0, 0);
 
-        Vector3 viewPos = Camera.main.WorldToScreenPoint(transform.position);
-        if (viewPos.x < 0 || viewPos.x > Camera.main.pixelWidth || viewPos.y < 0 || viewPos.y > Camera.main.pixelHeight)
+        Renderer renderer = GetComponent<Renderer>();
+        Vector3 minScreenPoint = Camera.main.WorldToScreenPoint(renderer.bounds.min);
+        Vector3 maxScreenPoint = Camera.main.WorldToScreenPoint(renderer.bounds.max);
+
+        //Camera.main.pixelWidth
+        //Camera.main.pixelHeight
+        if (minScreenPoint.x > Screen.width || maxScreenPoint.x < 0 || minScreenPoint.y > Screen.height || maxScreenPoint.y < 0)
         {
-            Debug.Log(gameObject.name + "=>OutSide");
             speed = 0;
+
             gameObject.SetActive(false);
-            SceneManager.LoadScene("MainScene");//LoadSceneAsync
+
+            if (OnCloudActionCompleted != null)
+            {
+                OnCloudActionCompleted();
+            }
         }
     }
 }
