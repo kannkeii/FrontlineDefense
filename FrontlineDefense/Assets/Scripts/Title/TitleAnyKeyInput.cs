@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class TitleAnyKeyInput : MonoBehaviour
 {
@@ -42,7 +43,7 @@ public class TitleAnyKeyInput : MonoBehaviour
         //Input.GetAxis//检测在Input Manager中定义的虚拟轴的值
         //Input.GetButton//检测在Input Manager中定义的虚拟按钮是否被按下
 
-        if((Input.anyKeyDown || MouseAnyKeyDown()) &&
+        if (MouseAnyKeyDown() &&
             !onAnyKeyDownIsHandled)
         {
             OnAnyKeyDownHandler?.Invoke();
@@ -53,10 +54,11 @@ public class TitleAnyKeyInput : MonoBehaviour
 
     bool MouseAnyKeyDown()
     {
-        if (Input.GetMouseButtonDown(0) ||
-            Input.GetMouseButtonDown(1) ||
-            Input.GetMouseButtonDown(2))
+        if (Input.anyKeyDown)
+        {
+            if (EventSystem.current.currentSelectedGameObject != null) return false;
             return true;
+        }
 
         return false;
     }
