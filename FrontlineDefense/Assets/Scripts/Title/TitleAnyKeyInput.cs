@@ -9,12 +9,15 @@ public class TitleAnyKeyInput : MonoBehaviour
 
     public event AnyKeyDownHandler OnAnyKeyDownHandler;
 
+    public GameObject WindowBG;
+
+    public List<GameObject> CloseUi;
 
     public static TitleAnyKeyInput Instance { get { return instance; } }//private set; }//読み込み（get）だけの場合、func{get;} = varが可能
 
     private static TitleAnyKeyInput instance = null;
 
-    private static bool onAnyKeyDownIsHandled = false;
+    private bool onAnyKeyDownIsHandled = false;
 
     private void Awake()
     {
@@ -47,6 +50,9 @@ public class TitleAnyKeyInput : MonoBehaviour
             !onAnyKeyDownIsHandled)
         {
             OnAnyKeyDownHandler?.Invoke();
+
+            CloseAllUi();
+
             onAnyKeyDownIsHandled = true;
         }
 
@@ -57,9 +63,21 @@ public class TitleAnyKeyInput : MonoBehaviour
         if (Input.anyKeyDown)
         {
             if (EventSystem.current.currentSelectedGameObject != null) return false;
+
+            if (WindowBG.gameObject.activeSelf)
+                return false;
+
             return true;
         }
 
         return false;
+    }
+
+    void CloseAllUi()
+    {
+        foreach(var item in CloseUi)
+        {
+            item.SetActive(false);
+        }
     }
 }
